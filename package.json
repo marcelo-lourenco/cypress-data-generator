@@ -1,0 +1,27 @@
+{
+  "name": "cypress-data-generator",
+  "version": "1.0.0",
+  "description": "Example of using Cypress with Gerador-BR data generator",
+  "main": "index.js",
+  "devDependencies": {
+    "cypress": "^14.3.3"
+  },
+  "dependencies": {
+    "gerador-br": "^1.2.2"
+  },
+  "scripts": {
+    "test:open": "cypress open",
+    "test:run": "cypress run"
+  },
+  "keywords": [
+    "playwright",
+    "gerador-br",
+    "data generator",
+    "test automation",
+    "test",
+    "data",
+    "generator"
+  ],
+  "author": "Marcelo Lourenço <qabi.dev@gmail.com>",
+  "license": "MIT"
+}
