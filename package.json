@@ -4,10 +4,8 @@
   "description": "Example of using Cypress with Gerador-BR data generator",
   "main": "index.js",
   "devDependencies": {
-    "cypress": "^14.3.3"
-  },
-  "dependencies": {
-    "gerador-br": "^1.2.2"
+    "cypress": "^14.3.3",
+    "gerador-br": "^1.2.3"
   },
   "scripts": {
     "test:open": "cypress open",
