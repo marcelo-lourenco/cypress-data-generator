@@ -1,7 +1,7 @@
 import { gerar } from 'gerador-br';
 
 describe('Gerador BR Formulário - Conversão Playwright para Cypress', () => {
-  const url = 'https://marcelo-lourenco.github.io/gerador-br/formulario-para-teste/';
+  const url = 'https://box4.dev/gerador-br/formulario-para-teste/';
 
   beforeEach(() => {
     cy.visit(url);
