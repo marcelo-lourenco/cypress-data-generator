@@ -1,43 +1,51 @@
-# Automated Tests with Cypress and Gerador-BR data generator
+# Cypress Data Generator with Gerador-BR
 
-Example project for automated user interface (UI) tests using **Cypress** and **Gerador BR** for creating mock data.
+Example of using [Cypress](https://www.cypress.io/) with the [Gerador-BR](https://box4.dev/gerador-br/) data generator to automatically fill forms with Brazilian mock data.
 
-## Setup
-
-**Prerequisites:**
+## Prerequisites
 
 * [Node.js](https://nodejs.org/) (includes npm)
+* [Cypress](https://www.cypress.io/): `npm i -D cypress`
 
-**Installation:**
+## Installation
 
-1. Clone this repository.
-2. Open your terminal in the project's root folder.
-3. Run the command to install dependencies:
+1. Clone this repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Install Cypress:
+   ```bash
+   npx cypress install
+   ```
 
+## Running Tests
+
+### Run tests in interactive mode:
 ```bash
-npm install
+npm run cypress:open
 ```
 
-## Test Run
-
-Examples of commands to run the tests:
-
+### Run tests in headless mode:
 ```bash
-npx cypress open
+npm test
 ```
 
-Select "E2E Testing";
-Choose a browser and star;
-Click in "gerador-br.cy.js"
+### Run specific test file:
+```bash
+npx cypress run --spec "cypress/e2e/gerador-br.cy.js"
+```
 
 ## Main Dependencies
 
-* [cypress](https://www.npmjs.com/package/cypress): Framework for UI test automation in browsers.
+* [cypress](https://www.npmjs.com/package/cypress): End-to-end testing framework for web applications.
 * [gerador-br](https://www.npmjs.com/package/gerador-br): Library to generate Brazilian mock data.
 
 ## Target Page
 
 The auto-fill example will be on the following form:
-[Formulário para Teste - Gerador BR](https://marcelo-lourenco.github.io/gerador-br/formulario-para-teste)
+[Formulário para Teste - Gerador BR](https://box4.dev/gerador-br/formulario-para-teste)
 
-## Documentation for [gerador-br](https://box4.dev/gerador-br/)
+## Documentation
+
+[gerador-br](https://box4.dev/gerador-br/)

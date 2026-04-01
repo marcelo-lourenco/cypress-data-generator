@@ -1,15 +1,22 @@
 import { gerar } from 'gerador-br';
 
-describe('Gerador BR Formulário - Teste com Cypress', () => {
-  const url = 'https://box4.dev/gerador-br/formulario-para-teste/';
-
+describe('Gerador-BR Form Tests', () => {
   beforeEach(() => {
-    cy.visit(url);
+    cy.visit('https://box4.dev/gerador-br/formulario-para-teste/');
   });
 
-  it('Validates data generation WITHOUT MASK', () => {
-    const nomeCompleto = gerar.nome.aleatorioCompleto();
-    cy.get('#fldNome').type(nomeCompleto);
+  it('should fill form with generated data without masks', () => {
+    // Generate test data
+    const testData = {
+      nomeCompleto: gerar.nome.aleatorioCompleto(),
+      endereco: gerar.endereco(),
+      cartaoCredito: gerar.cartaoCredito(),
+      contaBancaria: gerar.contaBancaria(),
+      banco: gerar.banco()
+    };
+
+    // Fill personal information
+    cy.get('#fldNome').type(testData.nomeCompleto);
     cy.get('#fldPai').type(gerar.nome.paiCompleto());
     cy.get('#fldMae').type(gerar.nome.maeCompleto());
     cy.get('#fldApelido').type(gerar.apelido());
@@ -22,12 +29,12 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldTipoSanguineo').type(gerar.tipoSanguineo());
     cy.get('#fldDataNascimento').type(gerar.dataNascimento());
 
-    // Documentos PJ
+    // Fill company documents
     cy.get('#fldCnpj').type(gerar.cnpj());
-    cy.get('#fldInscricaoEstadual').type(gerar.inscricaoEstadual() ?? '');
-    cy.get('#fldNomeEmpresa').type(gerar.nomeEmpresa("BR"));
+    cy.get('#fldInscricaoEstadual').type(gerar.inscricaoEstadual() || '');
+    cy.get('#fldNomeEmpresa').type(gerar.nomeEmpresa());
 
-    // Documentos PF
+    // Fill personal documents
     cy.get('#fldCpf').type(gerar.cpf());
     cy.get('#fldCnh').type(gerar.cnh());
     cy.get('#fldCnhCategoria').type(gerar.cnhCategoria());
@@ -40,65 +47,62 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldCertidaoCasamento').type(gerar.certidao.casamento());
     cy.get('#fldCertidaoObito').type(gerar.certidao.obito());
 
-    // Contatos
-    cy.get('#fldEmail').type(gerar.email(nomeCompleto));
+    // Fill contact information
+    cy.get('#fldEmail').type(gerar.email(testData.nomeCompleto));
     cy.get('#fldDdd').type(gerar.ddd());
     cy.get('#fldCelular').type(gerar.celular());
     cy.get('#fldTelefone').type(gerar.telefone());
 
-    // Endereços
-    const endereco = gerar.endereco();
-    cy.get('#fldLogradouro').type(endereco.logradouro);
-    cy.get('#fldNumero').type(endereco.numero);
-    cy.get('#fldComplemento').type(endereco.complemento ? endereco.complemento : '-');
-    cy.get('#fldBairro').type(endereco.bairro);
-    cy.get('#fldLocalidade').type(endereco.localidade);
-    cy.get('#fldEstado').type(endereco.estado);
-    cy.get('#fldCep').type(endereco.cep);
+    // Fill address information
+    cy.get('#fldLogradouro').type(testData.endereco.logradouro);
+    cy.get('#fldNumero').type(testData.endereco.numero);
+    cy.get('#fldComplemento').type(testData.endereco.complemento || '-');
+    cy.get('#fldBairro').type(testData.endereco.bairro);
+    cy.get('#fldLocalidade').type(testData.endereco.localidade);
+    cy.get('#fldEstado').type(testData.endereco.estado);
+    cy.get('#fldCep').type(testData.endereco.cep);
 
-    // Cartão de Crédito
-    const cartaoCredito = gerar.cartaoCredito();
-    cy.get('#fldCartaoCredito').type(cartaoCredito.numero);
-    cy.get('#fldBandeira').type(cartaoCredito.bandeira);
-    cy.get('#fldNomeTitular').type(cartaoCredito.nomeTitular);
-    cy.get('#fldCvv').type(cartaoCredito.cvv);
-    cy.get('#fldDataExpiracao').type(cartaoCredito.dataExpiracao);
+    // Fill credit card information
+    cy.get('#fldCartaoCredito').type(testData.cartaoCredito.numero);
+    cy.get('#fldBandeira').type(testData.cartaoCredito.bandeira);
+    cy.get('#fldNomeTitular').type(testData.cartaoCredito.nomeTitular);
+    cy.get('#fldCvv').type(testData.cartaoCredito.cvv);
+    cy.get('#fldDataExpiracao').type(testData.cartaoCredito.dataExpiracao);
 
-    // Conta Bancária
-    const cb = gerar.contaBancaria();
-    cy.get('#fldCodigoBanco').type(cb.codigoBanco);
-    cy.get('#fldNomeBanco').type(cb.nomeBanco);
-    cy.get('#fldAgencia').type(cb.agencia);
-    cy.get('#fldAgenciaDv').type(cb.agenciaDv ? cb.agenciaDv : '-');
-    cy.get('#fldConta').type(cb.conta);
-    cy.get('#fldContaDv').type(cb.contaDv ? cb.contaDv : '-');
+    // Fill bank account information
+    cy.get('#fldCodigoBanco').type(testData.contaBancaria.codigoBanco);
+    cy.get('#fldNomeBanco').type(testData.contaBancaria.nomeBanco);
+    cy.get('#fldAgencia').type(testData.contaBancaria.agencia);
+    cy.get('#fldAgenciaDv').type(testData.contaBancaria.agenciaDv || '-');
+    cy.get('#fldConta').type(testData.contaBancaria.conta);
+    cy.get('#fldContaDv').type(testData.contaBancaria.contaDv || '-');
 
-    // Banco
-    const banco = gerar.banco();
-    cy.get('#fldBancoCodigo').type(banco.codigoBanco);
-    cy.get('#fldBancoNome').type(banco.nomeBanco);
-    cy.get('#fldRazaoSocial').type(banco.razaoSocial);
-    cy.get('#fldIspb').type(banco.ispb);
+    // Fill bank information
+    cy.get('#fldBancoCodigo').type(testData.banco.codigoBanco);
+    cy.get('#fldBancoNome').type(testData.banco.nomeBanco);
+    cy.get('#fldRazaoSocial').type(testData.banco.razaoSocial);
+    cy.get('#fldIspb').type(testData.banco.ispb);
 
-    // Veículo
+    // Fill vehicle information
     cy.get('#fldPlacaAntiga').type(gerar.placaAntiga());
     cy.get('#fldPlacaMercosul').type(gerar.placaMercosul());
     cy.get('#fldRenavam').type(gerar.renavam());
 
-    // Lorem Ipsum
+    // Fill lorem ipsum text
     cy.get('#fldPalavra').type(gerar.palavra());
     cy.get('#fldSentenca').type(gerar.sentenca());
     cy.get('#fldParagrafos').type(gerar.paragrafo());
 
-    cy.contains('button', 'Enviar').click();
+    // Submit form
+    cy.get('[data-testid="button-enviar"]').click();
+    
+    // Wait for form submission
     cy.wait(3000);
   });
 
-  it('Validates data generation WITH MASK', () => {
-    // Documentos PJ
+  it('should fill form with generated data with masks', () => {
+    // Fill documents with masks
     cy.get('#fldCnpj').type(gerar.cnpj(true));
-
-    // Documentos PF
     cy.get('#fldCpf').type(gerar.cpf(true));
     cy.get('#fldRg').type(gerar.rg(true));
     cy.get('#fldCns').type(gerar.cns(true));
@@ -108,36 +112,38 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldCertidaoCasamento').type(gerar.certidao.casamento(true));
     cy.get('#fldCertidaoObito').type(gerar.certidao.obito(true));
 
-    // Contato
+    // Fill contact with masks
     cy.get('#fldEmail').type(gerar.email(gerar.apelido()));
     cy.get('#fldDdd').type(gerar.ddd());
     cy.get('#fldCelular').type(gerar.celular(true));
     cy.get('#fldTelefone').type(gerar.telefone(true));
 
-    // Endereço
+    // Fill address with mask
     const endereco = gerar.endereco(true);
     cy.get('#fldCep').type(endereco.cep);
 
-    // Cartão de Crédito
+    // Fill credit card with mask
     const cartaoCredito = gerar.cartaoCredito(true);
     cy.get('#fldCartaoCredito').type(cartaoCredito.numero);
 
-    // Veículo
+    // Fill vehicles with masks
     cy.get('#fldPlacaAntiga').type(gerar.placaAntiga(true));
     cy.get('#fldPlacaMercosul').type(gerar.placaMercosul(true));
 
-    // Lorem Ipsum
+    // Fill lorem ipsum
     cy.get('#fldPalavra').type(gerar.palavra());
     cy.get('#fldSentenca').type(gerar.sentenca());
     cy.get('#fldParagrafos').type(gerar.paragrafo());
 
-    cy.contains('button', 'Enviar').click();
+    // Submit form
+    cy.get('[data-testid="button-enviar"]').click();
     cy.wait(3000);
   });
 
-  it('Validates data generation with MASK = false and with informed state', () => {
+  it('should fill form with specific state and no masks', () => {
     const estado = 'SP';
 
+    // Fill documents with specific state
     cy.get('#fldCpf').type(gerar.cpf(false, estado));
     cy.get('#fldCnpj').type(gerar.cnpj(false));
     cy.get('#fldRg').type(gerar.rg(false));
@@ -154,13 +160,15 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldPlacaMercosul').type(gerar.placaMercosul(false));
     cy.get('#fldCartaoCredito').type(gerar.cartaoCredito(false).numero);
 
-    cy.contains('button', 'Enviar').click();
+    // Submit form
+    cy.get('[data-testid="button-enviar"]').click();
     cy.wait(2000);
   });
 
-  it('Validates data generation with MASK = true and with informed state', () => {
+  it('should fill form with specific state and masks', () => {
     const estado = 'SP';
 
+    // Fill documents with specific state and masks
     cy.get('#fldCpf').type(gerar.cpf(true, estado));
     cy.get('#fldCnpj').type(gerar.cnpj(true));
     cy.get('#fldRg').type(gerar.rg(true));
@@ -177,18 +185,20 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldPlacaMercosul').type(gerar.placaMercosul(true));
     cy.get('#fldCartaoCredito').type(gerar.cartaoCredito(true).numero);
 
-    cy.contains('button', 'Enviar').click();
+    // Submit form
+    cy.get('[data-testid="button-enviar"]').click();
     cy.wait(2000);
   });
 
-  it('Validates data generation according to variables (mask, gender, sexual orientation, state and bank)', () => {
+  it('should fill form with all parameters', () => {
     const mascara = true;
     const genero = 'f';
     const nomeCompleto = gerar.nome.femininoCompleto();
-    const estado = "PR";
+    const estado = 'PR';
     const banco = '237';
     const orientacaoSexual = gerar.orientacaoSexual();
 
+    // Fill personal information with specific gender
     cy.get('#fldNome').type(nomeCompleto);
     cy.get('#fldPai').type(gerar.nome.paiCompleto());
     cy.get('#fldMae').type(gerar.nome.maeCompleto());
@@ -200,14 +210,14 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldOrientacaoSexual').type(orientacaoSexual);
     cy.get('#fldIdentidadeGenero').type(gerar.identidadePorOrientacao(orientacaoSexual));
     cy.get('#fldTipoSanguineo').type(gerar.tipoSanguineo());
-    cy.get('#fldDataNascimento').type(gerar.dataNascimento([30,40]));
+    cy.get('#fldDataNascimento').type(gerar.dataNascimento([30, 40]));
 
-    // Documentos PJ
+    // Fill company documents
     cy.get('#fldCnpj').type(gerar.cnpj(mascara));
-    cy.get('#fldInscricaoEstadual').type(gerar.inscricaoEstadual(estado) ?? '');
+    cy.get('#fldInscricaoEstadual').type(gerar.inscricaoEstadual(estado) || '');
     cy.get('#fldNomeEmpresa').type(gerar.nomeEmpresa());
 
-    // Documentos PF
+    // Fill personal documents
     cy.get('#fldCpf').type(gerar.cpf(mascara, estado));
     cy.get('#fldCnh').type(gerar.cnh());
     cy.get('#fldCnhCategoria').type(gerar.cnhCategoria());
@@ -220,23 +230,23 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldCertidaoCasamento').type(gerar.certidao.casamento(mascara));
     cy.get('#fldCertidaoObito').type(gerar.certidao.obito(mascara));
 
-    // Contatos
+    // Fill contact information
     cy.get('#fldEmail').type(gerar.email(nomeCompleto));
     cy.get('#fldDdd').type(gerar.ddd(estado));
     cy.get('#fldCelular').type(gerar.celular(mascara, estado));
     cy.get('#fldTelefone').type(gerar.telefone(mascara, estado));
 
-    // Endereços
+    // Fill address information
     const endereco = gerar.endereco(mascara, estado);
     cy.get('#fldLogradouro').type(endereco.logradouro);
     cy.get('#fldNumero').type(endereco.numero);
-    cy.get('#fldComplemento').type(endereco.complemento ? endereco.complemento : '-');
+    cy.get('#fldComplemento').type(endereco.complemento || '-');
     cy.get('#fldBairro').type(endereco.bairro);
     cy.get('#fldLocalidade').type(endereco.localidade);
     cy.get('#fldEstado').type(endereco.estado);
     cy.get('#fldCep').type(endereco.cep);
 
-    // Cartão de Crédito
+    // Fill credit card information
     const cartaoCredito = gerar.cartaoCredito(mascara, nomeCompleto);
     cy.get('#fldCartaoCredito').type(cartaoCredito.numero);
     cy.get('#fldBandeira').type(cartaoCredito.bandeira);
@@ -244,33 +254,34 @@ describe('Gerador BR Formulário - Teste com Cypress', () => {
     cy.get('#fldCvv').type(cartaoCredito.cvv);
     cy.get('#fldDataExpiracao').type(cartaoCredito.dataExpiracao);
 
-    // Conta Bancária
+    // Fill bank account information
     const cb = gerar.contaBancaria(banco);
     cy.get('#fldCodigoBanco').type(cb.codigoBanco);
     cy.get('#fldNomeBanco').type(cb.nomeBanco);
     cy.get('#fldAgencia').type(cb.agencia);
-    cy.get('#fldAgenciaDv').type(cb.agenciaDv ? cb.agenciaDv : '-');
+    cy.get('#fldAgenciaDv').type(cb.agenciaDv || '-');
     cy.get('#fldConta').type(cb.conta);
-    cy.get('#fldContaDv').type(cb.contaDv ? cb.contaDv : '-');
+    cy.get('#fldContaDv').type(cb.contaDv || '-');
 
-    // Banco
+    // Fill bank information
     const bancoObj = gerar.banco(banco);
     cy.get('#fldBancoCodigo').type(bancoObj.codigoBanco);
     cy.get('#fldBancoNome').type(bancoObj.nomeBanco);
     cy.get('#fldRazaoSocial').type(bancoObj.razaoSocial);
     cy.get('#fldIspb').type(bancoObj.ispb);
 
-    // Veículo
+    // Fill vehicle information
     cy.get('#fldPlacaAntiga').type(gerar.placaAntiga(mascara));
     cy.get('#fldPlacaMercosul').type(gerar.placaMercosul(mascara));
     cy.get('#fldRenavam').type(gerar.renavam());
 
-    // Lorem Ipsum
+    // Fill lorem ipsum text
     cy.get('#fldPalavra').type(gerar.palavra());
     cy.get('#fldSentenca').type(gerar.sentenca(15));
-    cy.get('#fldParagrafos').type(gerar.paragrafo(3,8));
+    cy.get('#fldParagrafos').type(gerar.paragrafo(3, 8));
 
-    cy.contains('button', 'Enviar').click();
+    // Submit form
+    cy.get('[data-testid="button-enviar"]').click();
     cy.wait(2000);
   });
 });

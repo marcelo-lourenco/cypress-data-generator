@@ -1,5 +1,15 @@
-
-# Playwright
+# Dependencies
 node_modules/
-/cypress/downloads/*
-/cypress/screeshots/*
+package-lock.json
+
+# Build outputs
+dist/
+build/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Cache
+.cypress/
