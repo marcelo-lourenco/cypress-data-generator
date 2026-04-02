@@ -6,43 +6,55 @@ on:
   pull_request:
     branches: [ main, master ]
   schedule:
-    - cron: '0 */12 * * *'
+    - cron: '0 0 * * 0' # Every Sunday at midnight
+
+permissions:
+  contents: read
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    timeout-minutes: 20 # Avoid excessive minute consumption if you freeze
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm' # Enables npm caching (requires package-lock.json in root)
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install Cypress
-      run: npx cypress install
+      - name: Get Cypress version
+        id: cypress-version
+        run: echo "CYPRESS_VERSION=$(npx cypress --version | grep 'Cypress version:' | cut -d ' ' -f 3)" >> $GITHUB_OUTPUT
 
-    - name: Run Cypress tests
-      run: npm test
-      continue-on-error: true
+      - name: Cache Cypress Binary
+        uses: actions/cache@v4
+        id: cypress-cache
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ steps.cypress-version.outputs.CYPRESS_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
 
-    - name: Upload Cypress screenshots
-      uses: actions/upload-artifact@v4
-      if: failure()
-      with:
-        name: cypress-screenshots
-        path: cypress/screenshots/
-        retention-days: 30
+      - name: Install Cypress Binary (if not cached)
+        if: steps.cypress-cache.outputs.cache-hit != 'true'
+        run: npx cypress install
 
-    - name: Upload Cypress videos
-      uses: actions/upload-artifact@v4
-      if: failure()
-      with:
-        name: cypress-videos
-        path: cypress/videos/
-        retention-days: 30
+      - name: Run Cypress tests
+        run: npm test
+
+      - name: Upload Test Evidence (Screenshots & Videos)
+        if: always() # Ensures upload even if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-evidence
+          path: |
+            cypress/screenshots/
+            cypress/videos/
+          retention-days: 30
