@@ -1,6 +1,6 @@
-# Cypress Data Generator with Gerador-BR
+# Cypress Data Generator with @box4dev/gerador-br
 
-Example of using **Cypress** with the **Gerador-BR** data generator to automatically fill forms with Brazilian mock data.
+Example of using **Cypress** with the **@box4dev/gerador-br** data generator to automatically fill forms with Brazilian mock data.
 
 ## Prerequisites
 
@@ -36,14 +36,14 @@ npx cypress run --spec "cypress/e2e/gerador-br.cy.js"
 ## Main Dependencies
 
 * [cypress](https://www.npmjs.com/package/cypress): End-to-end testing framework for web applications.
-* [gerador-br](https://www.npmjs.com/package/gerador-br): Library to generate Brazilian mock data.
+* [@box4dev/gerador-br](https://www.npmjs.com/package/@box4dev/gerador-br): Library to generate Brazilian mock data.
 
 ## Target Page
 
 The auto-fill example will be on the following form:
-[Formulário para Teste - Gerador-BR](https://box4.dev/gerador-br/formulario-para-teste/?utm_source=github&utm_medium=cypress_data_generator)
+[Formulário para Teste - Gerador-BR](https://box4.dev/pt-br/brasil/formulario-teste/?utm_source=github&utm_medium=cypress_data_generator)
 
 ## Documentation
 
 [Cypress documentation](https://docs.cypress.io/app/get-started/why-cypress)
-[Gerador-BR documentation](https://box4.dev/gerador-br/documentacao/?utm_source=github&utm_medium=cypress_data_generator)
+[@box4dev/gerador-br documentation](https://box4.dev/pt-br/pacotes-npm/gerador-br/docs?utm_source=github&utm_medium=cypress_data_generator)

@@ -1,11 +1,11 @@
 {
   "name": "cypress-data-generator",
-  "version": "1.0.0",
-  "description": "Example of using Cypress with the Gerador-BR data generator",
+  "version": "1.0.1",
+  "description": "Example of using Cypress with the @box4dev/gerador-br data generator",
   "main": "index.js",
   "devDependencies": {
-    "cypress": "^15.13.0",
-    "gerador-br": "latest"
+    "@box4dev/gerador-br": "^2.0.1",
+    "cypress": "^15.20.1"
   },
   "scripts": {
     "cypress:open": "cypress open",
@@ -14,7 +14,7 @@
   },
   "keywords": [
     "cypress",
-    "gerador-br",
+    "@box4dev/gerador-br",
     "data generator",
     "test automation",
     "test",

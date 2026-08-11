@@ -1,8 +1,9 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+  allowCypressEnv: false,
   e2e: {
-    baseUrl: 'https://box4.dev/gerador-br',
+    baseUrl: 'https://box4.dev/pt-br/brasil',
     supportFile: false,
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     video: false,
@@ -14,8 +15,4 @@ module.exports = defineConfig({
     responseTimeout: 10000,
     pageLoadTimeout: 10000,
   },
-  // Disable Cypress.env warnings globally
-  env: {
-    allowCypressEnv: false
-  }
 });

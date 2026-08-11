@@ -1,8 +1,11 @@
-import { gerar } from 'gerador-br';
+import { gerar } from '@box4dev/gerador-br';
+
+Cypress.on('uncaught:exception', () => false);
 
 describe('Gerador-BR Form Tests', () => {
   beforeEach(() => {
-    cy.visit('https://box4.dev/gerador-br/formulario-para-teste/');
+    cy.visit('https://box4.dev/pt-br/brasil/formulario-teste/');
+    cy.get('#fldNome', { timeout: 15000 }).should('not.be.disabled');
   });
 
   it('should fill form with generated data without masks', () => {
